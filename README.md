@@ -29,6 +29,10 @@ No usable sandbox! Update your kernel or see https://chromium.googlesource.com/c
 const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 ```
 
+## Locators
+
+* class names looks funky so we canot rely on them
+
 ## Resources
 
 * https://try-puppeteer.appspot.com/
