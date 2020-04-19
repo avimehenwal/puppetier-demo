@@ -28,7 +28,8 @@ function highlightDiv(cssSelector) {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
   const page = await browser.newPage();
-  await page.goto(instagram_url);
+  await page.goto(instagram_url, {waitUntil: "networkidle0"});
+  await page.setViewport({ width: 1200, height: 800 });
 
   await page.waitFor(user);
   // await page.type(user, INSTA_USER, {delay: 100});  // Types slower, like a user
@@ -73,13 +74,20 @@ function highlightDiv(cssSelector) {
   //   await page.waitFor(250);
   // }
 
+
   let articles = await page.$$('article');
   console.log('LEN ', articles.length)
+  results = [];
   for (let article of articles) {
     let title = await article.$eval('header a', el => el.innerText.trim());
     console.log('TITLE ', title);
     // await article.$eval(_heart, el => el.click());
+    let heart = await article.$eval(_heart, el => el.innerText.trim());
+    console.log('TITLE ', heart);
+
   }
+  await autoScroll(page);
+
 
   // LOAD MORE
 
@@ -92,3 +100,24 @@ function highlightDiv(cssSelector) {
   // await page.waitFor(3000);
   // await browser.close();
 })();
+
+
+// scrollHeight gets increasing as we scroll down
+const autoScroll = page =>
+  page.evaluate(
+    async () =>
+      await new Promise((resolve, reject) => {
+        let totalHeight = 0;
+        let distance = 100;
+        let timer = setInterval(() => {
+          let scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+          console.log('scrollHeight', scrollHeight, 'totalHeight', totalHeight, 'time', timer)
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, 300);
+      })
+  );

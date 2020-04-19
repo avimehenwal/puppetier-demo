@@ -15,6 +15,7 @@ node example.js; xdg-open example.png
 ```
 
 * Add debugger to your case
+* When you're evaluateing you have a reference to the document context. So you would just use a standard selector, and check it's position using getBoundingClientRec
 
 ## Issues
 
@@ -97,10 +98,18 @@ let value = await page.evaluate(el => el.textContent, element)
 
 * class names looks funky so we canot rely on them
 
+```js
+window.scrollBy(0, window.innerWidth)
+window.scrollBy(0, -window.innerWidth)
+document.body.scrollHeight            // get the height of element in pizels
+
+```
+
 ## Resources
 
 * https://try-puppeteer.appspot.com/
 * https://stackoverflow.com/questions/53200857/puppeteer-node-js-to-click-a-button-as-long-as-it-exists-and-when-it-no-lon
 * https://stackoverflow.com/questions/46399299/debug-puppeteer
 * https://github.com/puppeteer/puppeteer#debugging-tips
+* https://stackoverflow.com/questions/51529332/puppeteer-scroll-down-until-you-cant-anymore
 
