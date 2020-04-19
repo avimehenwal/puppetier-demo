@@ -29,6 +29,67 @@ No usable sandbox! Update your kernel or see https://chromium.googlesource.com/c
 const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 ```
 
+```js
+const text = await page.$eval(cssSelector, (element) => {
+  return element.textContent;
+});
+
+const puppeteer = require('puppeteer');
+
+(async () => {
+  const browser = await puppeteer.launch();
+  const page    = await browser.newPage();
+
+  // Wait until page has loaded
+  await page.goto('https://www.instagram.com/accounts/login/', {
+    waitUntil: 'networkidle0'
+  });
+
+  // Wait for log in form
+  await Promise.all([
+    page.waitForSelector('[name="username"]'),
+    page.waitForSelector('[name="password"]'),
+    page.waitForSelector('[name="submit"]')
+  ]);
+
+  // Enter username and password
+  await page.type('[name="username"]', 'username');
+  await page.type('[name="password"]', 'password');
+
+  // Submit log in credentials and wait for navigation
+  await Promise.all([
+    page.click('[type="submit"]'),
+    page.waitForNavigation({
+      waitUntil: 'networkidle0'
+    })
+  ]);
+
+  // Download PDF
+  await page.pdf({
+    path: 'page.pdf',
+    format: 'A4'
+  });
+
+  await browser.close();
+})();
+
+await page.evaluate(async () => {
+  await new Promise((resolve, reject) => {
+    const interval = setInterval(() => {
+      const button = document.querySelector('main ul button');
+      if (button !== null) {
+        button.click();
+      } else {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 100);
+  });
+});
+
+
+```
+
 ## Locators
 
 * class names looks funky so we canot rely on them
@@ -36,4 +97,7 @@ const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid
 ## Resources
 
 * https://try-puppeteer.appspot.com/
+* https://stackoverflow.com/questions/53200857/puppeteer-node-js-to-click-a-button-as-long-as-it-exists-and-when-it-no-lon
+* https://stackoverflow.com/questions/46399299/debug-puppeteer
+* https://github.com/puppeteer/puppeteer#debugging-tips
 
