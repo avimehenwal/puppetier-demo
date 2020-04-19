@@ -9,7 +9,8 @@ const submit        = 'button[type="submit"]';
 // const dialogSel = '//button[text()="Not Now"]';
 const dialogSel     = 'div.mt3GC > button:nth-child(2)';
 const hearts        = 'article span:nth-child(1) button[type="button"]';
-
+const _heart        = ' span:nth-child(1) button[type="button"]'
+const _header       = ' header a'
 // SECRETS
 const INSTA_USER    = process.env.INSTAGRAM_USERNAME || 'Hello';
 const INSTA_PASS    = process.env.INSTAGRAM_PASSWORD || 'WorldYoYoYO';
@@ -43,6 +44,7 @@ function highlightDiv(cssSelector) {
   // await page.click(dialogSel);
   // await page.click(page.$x(dialogSel));
   // console.log(dialogSel);
+  console.log('PAGE TITLE : ', page.title());
   await page.click(dialogSel);
   // console.log(await page.$(hearts));
   // await page.$$eval(hearts, heart => {
@@ -52,47 +54,41 @@ function highlightDiv(cssSelector) {
   //   // Browser context
   // });
 
-  let e_hearts = await page.$$(hearts);
-  console.log(e_hearts.length);
-  e_hearts[0].click();
-  await page.waitFor(250);
-  e_hearts[1].click();
-  await page.waitFor(250);
-  e_hearts[2].click();
-  await page.waitFor(250);
-  e_hearts[3].click();
-  await page.waitFor(250);
+  // const iterations = 10;
+  // let article = await page.$$('article');
+  // console.log('article ON PAGE = ', article.length);
+  // for (let i=0; i<article.length; i++) {
+  //   console.log('ITERATING : ', i);
+  //   // let article = await page.$$('article')[i];
+  //   // console.log(article[i]);
+  //   let text = await page.evaluate(el => el.textContent, article[i] + _header);
+  //   console.log('HEADER = ', text);
+  //   // let header = article.$('article' + _header);
 
-  // e_hearts.forEach(element => {
-  //   page.evaluate(() => {
-  //     element.scrollIntoView();         // scrolls the element's parent containe
-  //   });
-  //   page.waitForSelector(element, {
-  //     visible: true
-  //   });
-  //   console.log('CLICKED');
-  //   element.click();
-  //   // page.click(element, {
-  //   //   button: 'middle',
-  //   //   delay: 10
-  //   // });
-  // });
+  //   // let header = 'article' + _header
+  //   // let element = await page.$(header)
+  //   // let value = await page.evaluate(el => el.textContent, element)
+  //   // console.log('CLICKING post from - ', value)
+  //   // e_hearts[i].click();
+  //   await page.waitFor(250);
+  // }
 
+  let articles = await page.$$('article');
+  console.log('LEN ', articles.length)
+  for (let article of articles) {
+    let title = await article.$eval('header a', el => el.innerText.trim());
+    console.log('TITLE ', title);
+    // await article.$eval(_heart, el => el.click());
+  }
 
-  // Handle Dialog window
-  // page.on('dialog', async dialog => {
-  //   console.log(dialog.message());
-  //   await dialog.dismiss();
-  //   // await page.click(page.$x(dialogSel));
-  //   await page.click(dialogSel);
-	// });
+  // LOAD MORE
 
-  await page.screenshot({path: 'example.png'});
   // await page.evaluate(() => {
-  //   debugger;
-  //   const btn = document.querySelector('#login');
-  //   btn.click();
-  // });
+    //   debugger;
+    //   const btn = document.querySelector('#login');
+    //   btn.click();
+    // });
+    await page.screenshot({path: 'example.png'});
   // await page.waitFor(3000);
   // await browser.close();
 })();

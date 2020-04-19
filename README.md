@@ -87,6 +87,9 @@ await page.evaluate(async () => {
   });
 });
 
+await page.waitForSelector('your selector')
+let element = await page.$('your selector')
+let value = await page.evaluate(el => el.textContent, element)
 
 ```
 
