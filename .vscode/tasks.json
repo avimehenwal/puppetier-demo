@@ -7,6 +7,7 @@
 			"command": "tsc",
 			"args": [
 				"--outDir", "build",
+				"--pretty",
 				"${file}"
 			],
 			"problemMatcher": ["$tsc"],
