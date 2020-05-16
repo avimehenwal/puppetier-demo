@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "TypeScript compile",
+			"type": "shell",
+			"command": "tsc",
+			"args": [
+				"--outDir", "build",
+				"${file}"
+			],
+			"problemMatcher": ["$tsc"],
+			"group": "build",
+		},
+		{
+			"label": "Run script",
+			"type": "shell",
+			"command": "node",
+			"args": [ "${workspaceFolder}/build/${fileBasenameNoExtension}.js" ],
+			"problemMatcher": [],
+			"group": "build",
+			"presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+		},
+		{
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": ["$eslint-stylish"]
+    }
+	]
+}
