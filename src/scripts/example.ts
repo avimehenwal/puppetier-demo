@@ -1,4 +1,4 @@
-import config from "./puppetierOptions";
+import config from "../puppetierOptions";
 import puppeteer = require('puppeteer');
 
 let output = config.output + 'example.png';

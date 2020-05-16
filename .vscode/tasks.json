@@ -30,12 +30,9 @@
 			"type": "shell",
 			"command": "tsc",
 			"args": [
-				"--outDir", "build",
-				"--pretty",
-				"${file}",
+				"--outDir", "build", "--pretty", "${file}",
 				"&&",
-				"node",
-				"${workspaceFolder}/build/${fileBasenameNoExtension}.js"
+				"node", "${workspaceFolder}/build/${fileBasenameNoExtension}.js"
 			],
 			"problemMatcher": [],
 			"group": "build",
