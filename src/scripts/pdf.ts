@@ -1,19 +1,19 @@
+import config from "../puppetierOptions";
 import puppeteer = require('puppeteer');
 
-let launchConfig = {
-  headless: true        // doesnt work in headless false mode
-};
+// doesnt work in headless false mode
+config.launchConfig.headless = true;
+const output = config.output + 'hn.pdf';
+const url: string = 'https://news.ycombinator.com';
 
-let output: string = "outputs/hn.pdf";
-
+// MAIN
 (async () => {
-  const browser = await puppeteer.launch(launchConfig);
+  const browser = await puppeteer.launch(config.launchConfig);
   const page = await browser.newPage();
-  await page.goto('https://news.ycombinator.com', {waitUntil: 'networkidle2'});
+  await page.goto(url, {waitUntil: 'networkidle2'});
   await page.pdf({
     path: output,
     format: 'A4'
   });
-
   await browser.close();
 })();
