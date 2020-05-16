@@ -3,6 +3,8 @@ import puppeteer = require('puppeteer');
 
 let output = config.output + 'example.png';
 
+// MAIN
+
 (async () => {
   const browser = await puppeteer.launch(config.launchConfig);
   const page = await browser.newPage();

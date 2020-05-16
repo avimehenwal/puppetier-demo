@@ -26,6 +26,21 @@
       }
 		},
 		{
+			"label": "Compile and Run script",
+			"type": "shell",
+			"command": "tsc",
+			"args": [
+				"--outDir", "build",
+				"--pretty",
+				"${file}",
+				"&&",
+				"node",
+				"${workspaceFolder}/build/${fileBasenameNoExtension}.js"
+			],
+			"problemMatcher": [],
+			"group": "build",
+		},
+		{
       "type": "npm",
       "script": "lint",
       "problemMatcher": ["$eslint-stylish"]
